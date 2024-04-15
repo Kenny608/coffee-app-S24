@@ -5,9 +5,27 @@ import coffee_bin.Coffee;
 import coffee_bin.CoffeeBean;
 import coffee_bin.CoffeeGrounds;
 import cupboard.*;
+
+interface BrewBehavior
+{
+	public Coffee brewCoffee(CoffeeSelection selection)throws CoffeeException;
+}
+
+interface BrewWithBeans extends BrewBehavior
+{
+	public Coffee brewEspresso();
+	public Coffee brewFilterCoffee();
+	public void addCoffeeBeans(CoffeeSelection sel, CoffeeBean newBeans) throws CoffeeException;
+}
+
+interface BrewWithGrounds extends BrewBehavior
+{
+	public void addCoffeeGrounds(CoffeeSelection sel, CoffeeGrounds newCoffee) throws CoffeeException;
+}
+
 public class CoffeeApp {
-    final private RegularCoffeeMachine coffeeMachine;
-    public CoffeeApp(RegularCoffeeMachine coffeeMachine) {
+    final private BrewBehavior coffeeMachine;
+    public CoffeeApp(BrewBehavior coffeeMachine) {
         this.coffeeMachine = coffeeMachine;
     }
     public Coffee prepareCoffee(CoffeeSelection selection) throws CoffeeException {
@@ -24,8 +42,8 @@ public class CoffeeApp {
         beans.put(CoffeeSelection.LATTE, new CoffeeBean("Dark Roast", 1000));
 
         //TODO: Test your Software Design against the assignment OUTPUT by uncommenting EACH of the two lines below, ONE at a time
-        RegularCoffeeMachine machine = new RegularCoffeeMachine(grounds);
-        //PremiumCoffeeMachine machine = new PremiumCoffeeMachine(beans);
+        //RegularCoffeeMachine machine = new RegularCoffeeMachine(grounds);
+        PremiumCoffeeMachine machine = new PremiumCoffeeMachine(beans);
         //TODO: END
 
         // Instantiate CoffeeApp with ANY CoffeeMachine
